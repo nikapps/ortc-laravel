@@ -1,0 +1,40 @@
+{
+    "name": "nikapps/ortc-laravel",
+    "description": "An API wrapper for ORTC (Real-Time framework from realtime.co) based on Laravel framework",
+    "keywords": [
+        "laravel",
+        "RealTime",
+        "realtime.co",
+        "ORTC",
+        "API",
+        "Wrapper",
+        "XRTML",
+        "pub-sub",
+        "push",
+        "publish",
+        "real-time"
+    ],
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Ali Borhani",
+            "email": "aliborhani1@gmail.com"
+        },
+        {
+            "name": "Hossein Moradgholi",
+            "email": "h.moradgholi@icloud.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "nikapps/ortc-php": "1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Nikapps\\OrtcLaravel\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
