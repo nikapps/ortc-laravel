@@ -131,7 +131,7 @@ See [nikapps/ortc-php - Exceptions](https://github.com/nikapps/ortc-php#exceptio
 * [nikapps/ortc-php (1.x)](https://packagist.org/packages/nikapps/ortc-php)
 
 
-## Ortc Documentations
+## Ortc Documentation
 This package is based on ORTC REST API. You can download REST service documentation from this url:
 
 ```
