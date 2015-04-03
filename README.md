@@ -1,8 +1,8 @@
 # ORTC-Laravel (ORTC client for Laravel)
 
+![Real-time Framework - ORTC](https://www.dropbox.com/s/z6by8jind9s3m5v/realtime.png?raw=1)
+
 An Easy-To-Use ORTC API Client package for Laravel Framework (Laravel 4.2.x)
-
-
 
 *This package is based on [nikapps/ortc-php](https://github.com/nikapps/ortc-php).*
 
