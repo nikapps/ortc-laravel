@@ -135,7 +135,7 @@ See [nikapps/ortc-php - Exceptions](https://github.com/nikapps/ortc-php#exceptio
 This package is based on ORTC REST API. You can download REST service documentation from this url:
 
 ```
-http://ortc.xrtml.org/documentation/rest/2.1.0/RestServices.pdf
+http://messaging-public.realtime.co/documentation/rest/2.1.0/RestServices.pdf
 ```
 
 ## TODO
