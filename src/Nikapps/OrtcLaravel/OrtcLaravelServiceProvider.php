@@ -1,7 +1,6 @@
-<?php 
+<?php namespace Nikapps\OrtcLaravel;
 
-namespace Nikapps\OrtcLaravel;
-
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class OrtcLaravelServiceProvider extends ServiceProvider
@@ -14,15 +13,21 @@ class OrtcLaravelServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
     public function boot()
     {
-        $this->app->make('Illuminate\Broadcasting\BroadcastManager')->extend(
-                'realtime', function ($app, $config) {
-            
-            return new OrtcBroadcaster($app->make('Nikapps\OrtcLaravel\OrtcLaravelFactory'));
-        });
+        $this->package('nikapps/ortc-laravel');
+
+        AliasLoader::getInstance()->alias(
+            'Ortc',
+            'Nikapps\OrtcLaravel\OrtcLaravelFacade'
+        );
     }
-    
+
     /**
      * Register the service provider.
      *
@@ -30,8 +35,8 @@ class OrtcLaravelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Ortc', function ($app) {
-            $config = $app['config']['broadcasting']['connections']['realtime'];
+        $this->app->bind('Ortc', function ($app) {
+            $config = $app['config'];
             return new OrtcLaravelFactory($config);
         });
     }
@@ -43,6 +48,6 @@ class OrtcLaravelServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Ortc'];
+        return array();
     }
 }

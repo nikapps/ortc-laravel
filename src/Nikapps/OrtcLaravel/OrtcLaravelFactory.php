@@ -1,10 +1,7 @@
 <?php
-
 namespace Nikapps\OrtcLaravel;
 
-use Config;
-use Response;
-
+use Illuminate\Config\Repository as ConfigRepository;
 use Nikapps\OrtcPhp\Configs\OrtcConfig;
 use Nikapps\OrtcPhp\Models\Channel;
 use Nikapps\OrtcPhp\Models\Requests\AuthRequest;
@@ -16,6 +13,11 @@ class OrtcLaravelFactory
 {
 
     /**
+     * @var ConfigRepository
+     */
+    protected $config;
+
+    /**
      * @var OrtcConfig
      */
     protected $ortcConfig;
@@ -25,9 +27,11 @@ class OrtcLaravelFactory
      *
      * @param ConfigRepository $config
      */
-    public function __construct(array $config)
+    public function __construct(ConfigRepository $config)
     {
-        $this->createOrtcConfig($config);
+        $this->config = $config;
+
+        $this->createOrtcConfig();
     }
 
     /**
@@ -41,36 +45,36 @@ class OrtcLaravelFactory
     /**
      * create OrtcConfig from laravel config
      */
-    protected function createOrtcConfig(array $config)
+    protected function createOrtcConfig()
     {
         $ortcConfig = new OrtcConfig();
 
         $ortcConfig->setApplicationKey(
-                $config['credentials']['application_key']
+            $this->config->get('ortc-laravel::credentials.application_key')
         );
         $ortcConfig->setPrivateKey(
-                $config['credentials']['private_key']
+            $this->config->get('ortc-laravel::credentials.private_key')
         );
         $ortcConfig->setBalancerUrl(
-                $config['api']['balancer_url']
+            $this->config->get('ortc-laravel::api.balancer_url')
         );
         $ortcConfig->setAuthenticationPath(
-                $config['api']['authentication']['path']
+            $this->config->get('ortc-laravel::api.authentication.path')
         );
         $ortcConfig->setSendPath(
-                $config['api']['send_message']['path']
+            $this->config->get('ortc-laravel::api.send_message.path')
         );
         $ortcConfig->setMaxChunkSize(
-                $config['api']['send_message']['max_chunk_size']
+            $this->config->get('ortc-laravel::api.send_message.max_chunk_size')
         );
         $ortcConfig->setBatchPoolSize(
-                $config['api']['send_message']['batch_pool_size']
+            $this->config->get('ortc-laravel::api.send_message.batch_pool_size')
         );
         $ortcConfig->setPreMessageString(
-                $config['api']['send_message']['pre_message_string']
+            $this->config->get('ortc-laravel::api.send_message.pre_message_string')
         );
         $ortcConfig->setVerifySsl(
-                $config['api']['verify_ssl']
+            $this->config->get('ortc-laravel::api.verify_ssl')
         );
 
         $this->ortcConfig = $ortcConfig;
@@ -169,18 +173,14 @@ class OrtcLaravelFactory
     /**
      * same as send() but pusher-way!
      *
-     * @param array $channels
+     * @param string $channel
      * @param string $authToken
-     * @param array $payload
+     * @param string $message
      * @throws \Nikapps\OrtcPhp\Exceptions\BatchRequestException
      * @return \Nikapps\OrtcPhp\Models\Responses\SendMessageResponse
      */
-    public function trigger($channels, $authToken, array $payload = [])
+    public function trigger($channel, $authToken, $message)
     {
-        $message = Response::json($payload);
-        
-        foreach ($channels as $channel) {
-            return $this->send($channel, $authToken, $message);
-        }
+        return $this->send($channel, $authToken, $message);
     }
 }
