@@ -28,8 +28,8 @@ class OrtcBroadcaster implements Broadcaster
     /**
      * {@inheritdoc}
      */
-    public function broadcast(array $channels, $authToken, array $payload = [])
+    public function broadcast(array $channels, $event, array $payload = [])
     {
-        $this->ortc->trigger($channels, $authToken, $payload);
+        $this->ortc->trigger($channels, $event, $payload);
     }
 }
