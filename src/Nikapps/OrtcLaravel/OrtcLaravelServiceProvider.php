@@ -2,6 +2,8 @@
 
 namespace Nikapps\OrtcLaravel;
 
+use Nikapps\OrtcLaravel\Broadcasters\OrtcBroadcaster;
+
 use Illuminate\Support\ServiceProvider;
 
 class OrtcLaravelServiceProvider extends ServiceProvider
@@ -19,7 +21,7 @@ class OrtcLaravelServiceProvider extends ServiceProvider
         $this->app->make('Illuminate\Broadcasting\BroadcastManager')->extend(
                 'realtime', function ($app, $config) {
             
-            return new OrtcBroadcaster($app->make('Nikapps\OrtcLaravel\OrtcLaravelFactory'));
+            return new OrtcBroadcaster($app->make('Ortc'));
         });
     }
     
