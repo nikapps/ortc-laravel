@@ -2,13 +2,11 @@
 
 namespace Nikapps\OrtcLaravel;
 
-use Config;
-use Response;
+use Log;
 
 use Nikapps\OrtcPhp\Configs\OrtcConfig;
 use Nikapps\OrtcPhp\Models\Channel;
 use Nikapps\OrtcPhp\Models\Requests\AuthRequest;
-use Nikapps\OrtcPhp\Models\Requests\BalancerUrlRequest;
 use Nikapps\OrtcPhp\Models\Requests\SendMessageRequest;
 use Nikapps\OrtcPhp\Ortc;
 
@@ -170,17 +168,21 @@ class OrtcLaravelFactory
      * same as send() but pusher-way!
      *
      * @param array $channels
-     * @param string $authToken
+     * @param string $event
      * @param array $payload
      * @throws \Nikapps\OrtcPhp\Exceptions\BatchRequestException
      * @return \Nikapps\OrtcPhp\Models\Responses\SendMessageResponse
      */
-    public function trigger($channels, $authToken, array $payload = [])
+    public function trigger($channels, $event, array $payload = [])
     {
-        $message = Response::json($payload);
+        $message_arr = array(
+            'event' => $event,
+            'payload' => $payload
+        );
+        $message = json_encode($message_arr);
         
         foreach ($channels as $channel) {
-            return $this->send($channel, $authToken, $message);
+            return $this->send($channel, '', $message);
         }
     }
 }
