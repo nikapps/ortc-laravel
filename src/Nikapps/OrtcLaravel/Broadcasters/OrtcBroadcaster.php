@@ -1,23 +1,23 @@
 <?php
 
-namespace Illuminate\Broadcasting\Broadcasters;
+namespace Nikapps\OrtcLaravel\Broadcasters;
 
-use Ortc;
+use Nikapps\OrtcLaravel\OrtcLaravelFactory as Ortc;
 use Illuminate\Contracts\Broadcasting\Broadcaster;
 
 class OrtcBroadcaster implements Broadcaster
 {
     /**
-     * The Pusher SDK instance.
+     * The Ortc Factory instance.
      *
-     * @var \Pusher
+     * @var Ortc
      */
     protected $ortc;
 
     /**
      * Create a new broadcaster instance.
      *
-     * @param  \Pusher  $pusher
+     * @param  Ortc  $ortc
      * @return void
      */
     public function __construct(Ortc $ortc)
