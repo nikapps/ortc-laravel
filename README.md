@@ -2,25 +2,40 @@
 
 ![Real-time Framework - ORTC](https://www.dropbox.com/s/z6by8jind9s3m5v/realtime.png?raw=1)
 
-An Easy-To-Use [ORTC](http://framework.realtime.co/messaging) API Client for Laravel Framework (Laravel 4.2.x)
+An Easy-To-Use [ORTC](http://framework.realtime.co/messaging) API Client for Laravel Framework (Laravel 5.1.x)
 
 *This package is based on [nikapps/ortc-php](https://github.com/nikapps/ortc-php).*
 
 ## Installation
 
-Simply run command:
-
-```
-composer require nikapps/ortc-laravel
-```
-
-Or you can add this [package](https://packagist.org/packages/nikapps/ortc-laravel) dependency to your Laravel's composer.json :
+Simply add this [package](https://packagist.org/packages/nikapps/ortc-laravel) dependency to your Laravel's composer.json :
 
 ~~~json
 {
-    "require": {
-        "nikapps/ortc-laravel": "1.*"
-    }
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "rdarda/ortc-laravel",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/rdarda/ortc-laravel.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "require": {
+                    "php": ">=5.4.0",
+                    "illuminate/support": "5.1.*",
+                    "nikapps/ortc-php": "1.*"
+                },
+                "autoload": {
+                    "psr-0" : {
+                        "Nikapps\\OrtcLaravel\\": "src/"
+                    }
+                }
+            }
+        }
+    ]
     
 }
 ~~~
@@ -36,14 +51,66 @@ composer update
 Add this package provider in your providers array `[app/config/app.php]`:
 
 ~~~php
-'Nikapps\OrtcLaravel\OrtcLaravelServiceProvider',
+Nikapps\OrtcLaravel\OrtcLaravelServiceProvider::class,
 ~~~
 
-Next you need to publish configuration file. Run this command:
+And this Facade in your aliases array `[app/config/app.php]`:
 
-```
-php artisan config:publish nikapps/ortc-laravel
-```
+~~~php
+'Ortc' => Nikapps\OrtcLaravel\Facades\Ortc::class
+~~~
+
+Next you have to copy the configuration to your connections array `[app/config/broadcasting.php]`:
+
+~~~php
+'realtime' => [
+    'driver' => 'realtime',
+    'credentials' => [
+
+        /*
+         * your application key
+         */
+        'application_key' => 'YOUR_APPLICATION_KEY',
+        /*
+         * your private key
+         */
+        'private_key'     => 'YOUR_PRIVATE_KEY',
+
+    ],
+    /*
+    |--------------------------------------------------------------------------
+    | Real-time REST API Options
+    |--------------------------------------------------------------------------
+    | you can change default options of api.
+    |
+    */
+    'api'         => [
+        /*
+         * send message
+         */
+        'send_message'   => [
+            'path'               => '/send', //api path
+            'max_chunk_size'     => 700, //maximum size of each message in bytes
+            'batch_pool_size'    => 5, //pool size for concurrent requests
+            'pre_message_string' => '{RANDOM}_{PART}-{TOTAL_PARTS}_' //pre message string format
+        ],
+        /*
+         * authentication
+         */
+        'authentication' => [
+            'path' => '/authenticate' //api path
+        ],
+        /*
+         * url to fetch balancer url
+         */
+        'balancer_url'   => 'https://ortc-developers.realtime.co/server/2.1?appkey={APP_KEY}',
+        /*
+         * verify ssl/tls certificate
+         */
+        'verify_ssl'     => true
+    ]
+]
+~~~
 
 
 ## Configuration
@@ -61,9 +128,14 @@ First of all, you should register on realtime.co and get your api keys.
 
 #### Update config file
 
-Edit `app/config/packages/nikapps/ortc-laravel/config.php`:
+Edit `app/config/broadcasting.php`:
 
 ~~~php
+/*
+* set default broadcasting driver to realtime
+*/
+'default' => env('BROADCAST_DRIVER', 'realtime'),
+
 'credentials' => [
 
     /*
@@ -109,7 +181,93 @@ Ortc::authenticate(
 );
 ~~~
 
-#### Send Message (Push)
+#### Send Message via broadcasting service (recommend) (Push)
+See [laravel/Events - Marking Events For Broadcast](http://laravel.com/docs/5.1/events#broadcasting-events)
+
+Below a short example:
+
+Create a new Event
+```
+php artisan make:event TestEvent
+```
+Open up app/Events/TestEvent.php and edit
+~~~php
+<?php
+
+namespace App\Events;
+
+use App\Events\Event;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+
+/**
+ * Add implements ShouldBroadcast to EventClass
+ */
+class TestEvent extends Event implements ShouldBroadcast
+{
+    use SerializesModels;
+
+    /**
+     * All public variables will be automatically added to the broadcast payload.
+     */
+    public $value;
+    
+    private $userId;
+
+    /**
+     * Create a new event instance.
+     *
+     * @param User $user
+     * @param $value
+     * @return void
+     */
+    public function __construct(User $user, $value)
+    {
+        $this->userId = $user->id;
+        $this->value = $value;
+    }
+
+    /**
+     * Get the channels the event should be broadcast on.
+     *
+     * @return array
+     */
+    public function broadcastOn()
+    {
+        return ['userId_' . $userId];
+    }
+    
+    /**
+     * Get the broadcast event name.
+     *
+     * @return mixed also could be an array
+     */
+    public function broadcastAs()
+    {
+        return 'testEvent';
+    }
+}
+~~~
+
+To fire the event:
+
+~~~php
+$value = 'test 123';
+event(new TestEvent($user, $value));
+~~~
+
+The result will be:
+
+~~~json
+{
+    "event": "testEvent",
+    "payload": {
+    	"value": "test 123"
+    }
+}
+~~~
+
+#### Send Message manually (Push)
 In order to push a message to a channel:
 
 ~~~php
@@ -144,7 +302,6 @@ http://messaging-public.realtime.co/documentation/rest/2.1.0/RestServices.pdf
 * subscribe channel(s) by Ratchet/Nodejs
 * support mobile push notification (ios & android)
 * support presence channels
-* create package for Laravel 5
 * Anything else?!
 
 ## Contribute
