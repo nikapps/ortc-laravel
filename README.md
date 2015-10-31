@@ -304,6 +304,12 @@ http://messaging-public.realtime.co/documentation/rest/2.1.0/RestServices.pdf
 * support presence channels
 * Anything else?!
 
+## Credits 
+
+* Thanks to realtime.co teams for their amazing platform
+* Thanks to [João Parreira](https://github.com/jparreira) for his php library
+* Thanks to [rdarda](https://github.com/rdarda) for sending the pull request to support Laravel 5.1
+
 ## Contribute
 
 Wanna contribute? simply fork this project and make a pull request!
