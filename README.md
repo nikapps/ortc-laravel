@@ -4,57 +4,25 @@
 
 An Easy-To-Use [ORTC](http://framework.realtime.co/messaging) API Client for Laravel Framework (Laravel 5.1.x)
 
+**If you're using Laravel 4.2.x, please check [branch l4](https://github.com/nikapps/ortc-laravel/tree/l4)**
+
 *This package is based on [nikapps/ortc-php](https://github.com/nikapps/ortc-php).*
 
 ## Installation
 
-Simply add this [package](https://packagist.org/packages/nikapps/ortc-laravel) dependency to your Laravel's composer.json :
-
-~~~json
-{
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "rdarda/ortc-laravel",
-                "version": "dev-master",
-                "source": {
-                    "url": "https://github.com/rdarda/ortc-laravel.git",
-                    "type": "git",
-                    "reference": "master"
-                },
-                "require": {
-                    "php": ">=5.4.0",
-                    "illuminate/support": "5.1.*",
-                    "nikapps/ortc-php": "1.*"
-                },
-                "autoload": {
-                    "psr-0" : {
-                        "Nikapps\\OrtcLaravel\\": "src/"
-                    }
-                }
-            }
-        }
-    ]
-    
-}
-~~~
-
-Then update composer:
+You can install this [package](https://packagist.org/packages/nikapps/ortc-laravel) by simply run this composer command:
 
 ```
-composer update
+composer require nikapps/ortc-laravel
 ```
 
--
-
-Add this package provider in your providers array `[app/config/app.php]`:
+Then, add this service provider in your providers array `[app/config/app.php]`:
 
 ~~~php
 Nikapps\OrtcLaravel\OrtcLaravelServiceProvider::class,
 ~~~
 
-And this Facade in your aliases array `[app/config/app.php]`:
+Then, add this Facade to your aliases array `[app/config/app.php]`:
 
 ~~~php
 'Ortc' => Nikapps\OrtcLaravel\Facades\Ortc::class
