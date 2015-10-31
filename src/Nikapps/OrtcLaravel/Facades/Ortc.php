@@ -1,9 +1,10 @@
 <?php
-namespace Nikapps\OrtcLaravel;
+
+namespace Nikapps\OrtcLaravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class OrtcLaravelFacade extends Facade
+class Ortc extends Facade
 {
     /**
      * The name of the binding in the IoC container.
