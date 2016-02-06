@@ -10,7 +10,6 @@ use Nikapps\OrtcPhp\Ortc;
 
 class OrtcLaravelFactory
 {
-
     /**
      * @var OrtcConfig
      */

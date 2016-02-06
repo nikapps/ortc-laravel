@@ -3,12 +3,10 @@
 namespace Nikapps\OrtcLaravel;
 
 use Nikapps\OrtcLaravel\Broadcasters\OrtcBroadcaster;
-
 use Illuminate\Support\ServiceProvider;
 
 class OrtcLaravelServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
