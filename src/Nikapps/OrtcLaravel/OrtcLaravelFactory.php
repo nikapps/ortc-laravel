@@ -2,8 +2,6 @@
 
 namespace Nikapps\OrtcLaravel;
 
-use Log;
-
 use Nikapps\OrtcPhp\Configs\OrtcConfig;
 use Nikapps\OrtcPhp\Models\Channel;
 use Nikapps\OrtcPhp\Models\Requests\AuthRequest;
