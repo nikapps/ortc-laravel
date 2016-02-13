@@ -168,7 +168,7 @@ class OrtcLaravelFactory
      * @param string $event
      * @param array $payload
      * @throws \Nikapps\OrtcPhp\Exceptions\BatchRequestException
-     * @return \Nikapps\OrtcPhp\Models\Responses\SendMessageResponse
+     * @return array \Nikapps\OrtcPhp\Models\Responses\SendMessageResponse
      */
     public function trigger($channels, $event, array $payload = [])
     {
@@ -178,8 +178,12 @@ class OrtcLaravelFactory
         );
         $message = json_encode($message_arr);
         
+        $responses = array();
+        
         foreach ($channels as $channel) {
-            return $this->send($channel, '', $message);
+            $responses[] = $this->send($channel, '', $message);
         }
+        
+        return $responses;
     }
 }
