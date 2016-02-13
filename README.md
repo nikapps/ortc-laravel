@@ -246,7 +246,7 @@ Ortc::send(
 );
 ~~~
 
-*If you using UTF-8 messages, it's better to use `base64_encode()`.*
+*If you are using UTF-8 messages, It's better to use `base64_encode()`.*
 
 ## Exceptions
 See [nikapps/ortc-php - Exceptions](https://github.com/nikapps/ortc-php#exceptions)
