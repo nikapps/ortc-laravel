@@ -1,5 +1,5 @@
 {
-    "name": "nikapps/ortc-laravel",
+    "name": "prspace/ortc-laravel",
     "description": "An API wrapper for ORTC (Real-Time framework from realtime.co) based on Laravel framework",
     "keywords": [
         "laravel",
@@ -24,11 +24,15 @@
         {
             "name": "Hossein Moradgholi",
             "email": "h.moradgholi@icloud.com"
+        },
+        {
+            "name": "Parvez Rahaman",
+            "email": "indparvez@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "5.1.*",
+        "illuminate/support": "5.2.*",
         "nikapps/ortc-php": "1.*"
     },
     "autoload": {
