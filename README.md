@@ -28,7 +28,7 @@ Then, add this Facade to your aliases array `[app/config/app.php]`:
 'Ortc' => Nikapps\OrtcLaravel\Facades\Ortc::class
 ~~~
 
-Next you have to copy the configuration to your connections array `[app/config/broadcasting.php]`:
+Next you have to copy the configuration to your `connections` array `[app/config/broadcasting.php]`:
 
 ~~~php
 'realtime' => [
