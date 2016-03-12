@@ -2,7 +2,7 @@
 
 ![Real-time Framework - ORTC](https://www.dropbox.com/s/z6by8jind9s3m5v/realtime.png?raw=1)
 
-An Easy-To-Use [ORTC](http://framework.realtime.co/messaging) API Client for Laravel Framework (Laravel 5.1.x)
+An Easy-To-Use [ORTC](http://framework.realtime.co/messaging) API Client for Laravel Framework (Laravel 5.1 and 5.2)
 
 **If you're using Laravel 4.2.x, please check [branch l4](https://github.com/nikapps/ortc-laravel/tree/l4)**
 
