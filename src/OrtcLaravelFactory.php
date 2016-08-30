@@ -17,8 +17,7 @@ class OrtcLaravelFactory
 
     /**
      * constructor
-     *
-     * @param ConfigRepository $config
+     * @param array $config
      */
     public function __construct(array $config)
     {
@@ -35,6 +34,7 @@ class OrtcLaravelFactory
 
     /**
      * create OrtcConfig from laravel config
+     * @param array $config
      */
     protected function createOrtcConfig(array $config)
     {
@@ -168,17 +168,17 @@ class OrtcLaravelFactory
      * @param string $event
      * @param array $payload
      * @throws \Nikapps\OrtcPhp\Exceptions\BatchRequestException
-     * @return array \Nikapps\OrtcPhp\Models\Responses\SendMessageResponse
+     * @return \Nikapps\OrtcPhp\Models\Responses\SendMessageResponse[]
      */
     public function trigger($channels, $event, array $payload = [])
     {
-        $message_arr = array(
+        $message_arr = [
             'event' => $event,
             'payload' => $payload
-        );
+        ];
         $message = json_encode($message_arr);
         
-        $responses = array();
+        $responses = [];
         
         foreach ($channels as $channel) {
             $responses[] = $this->send($channel, '', $message);

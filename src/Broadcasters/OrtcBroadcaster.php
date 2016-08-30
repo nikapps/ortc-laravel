@@ -17,8 +17,7 @@ class OrtcBroadcaster implements Broadcaster
     /**
      * Create a new broadcaster instance.
      *
-     * @param  Ortc  $ortc
-     * @return void
+     * @param  Ortc $ortc
      */
     public function __construct(Ortc $ortc)
     {

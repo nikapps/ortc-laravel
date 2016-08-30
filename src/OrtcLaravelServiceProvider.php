@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Nikapps\OrtcLaravel;
 
@@ -16,13 +16,13 @@ class OrtcLaravelServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->app->make('Illuminate\Broadcasting\BroadcastManager')->extend(
-                'realtime', function ($app, $config) {
-            
-            return new OrtcBroadcaster($app->make('Ortc'));
-        });
+        $this->app
+            ->make('Illuminate\Broadcasting\BroadcastManager')
+            ->extend('realtime', function ($app) {
+                return new OrtcBroadcaster($app->make('Ortc'));
+            });
     }
-    
+
     /**
      * Register the service provider.
      *
